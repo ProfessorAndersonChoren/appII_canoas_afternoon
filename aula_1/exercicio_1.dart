@@ -6,7 +6,13 @@ void main() {
   print('Digite o segundo número:');
   final num2 = stdin.readLineSync()!;
 
-  final sum = int.parse(num1) + int.parse(num2);
+  final sum = double.parse(num1) + double.parse(num2);
+  final sub = double.parse(num1) - double.parse(num2);
+  final mult = double.parse(num1) * double.parse(num2);
+  final div = double.parse(num1) / double.parse(num2);
 
   print(sum);
+  print(sub);
+  print(mult);
+  print(div);
 }
