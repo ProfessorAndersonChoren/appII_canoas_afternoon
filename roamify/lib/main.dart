@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:roamify/screens/home.dart';
+import 'package:roamify/screens/home/home.dart';
 
 void main() {
   runApp(

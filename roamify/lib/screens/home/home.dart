@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:roamify/screens/home/components/stories.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -19,6 +20,15 @@ class Home extends StatelessWidget {
           ),
         ],
         centerTitle: true,
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Stories(),
+            Image.asset('assets/ic_photo.jpg'),
+          ],
+        ),
       ),
     );
   }
