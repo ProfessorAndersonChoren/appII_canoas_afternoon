@@ -1,13 +1,12 @@
+import 'package:burguer_dos_sonhos/enums/payment.dart';
+import 'package:burguer_dos_sonhos/stores/payment_store.dart';
+import 'package:burguer_dos_sonhos/stores/quantity_store.dart';
 import 'package:flutter/material.dart';
-
-enum Payment {
-  creditCard,
-  debitCard,
-  pix,
-}
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class HomePage extends StatelessWidget {
-  final _selected = Payment.creditCard;
+  final store = PaymentStore();
+  final store_quantity = QuantityStore();
 
   HomePage({super.key});
 
@@ -17,7 +16,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Burger dos Sonhos'),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Image.asset(
             'assets/ic_hamburguer.jpg',
@@ -37,24 +36,71 @@ class HomePage extends StatelessWidget {
                   'Método de pagamento',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                RadioListTile(
-                  value: Payment.creditCard,
-                  groupValue: _selected,
-                  onChanged: (value) {},
-                  title: const Text('Cartão de Crédito'),
+                Observer(builder: (_) {
+                  return Column(
+                    children: [
+                      RadioListTile(
+                        value: Payment.creditCard,
+                        groupValue: store.selected,
+                        onChanged: (value) {
+                          store.changePaymentMethod(value!);
+                        },
+                        title: const Text('Cartão de Crédito'),
+                      ),
+                      RadioListTile(
+                        value: Payment.debitCard,
+                        groupValue: store.selected,
+                        onChanged: (value) {
+                          store.changePaymentMethod(value!);
+                        },
+                        title: const Text('Cartão de Débito'),
+                      ),
+                      RadioListTile(
+                        value: Payment.pix,
+                        groupValue: store.selected,
+                        onChanged: (value) {
+                          store.changePaymentMethod(value!);
+                        },
+                        title: const Text('Pix'),
+                      ),
+                    ],
+                  );
+                }),
+                const SizedBox(height: 24),
+                Text(
+                  'Quantidade',
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                RadioListTile(
-                  value: Payment.debitCard,
-                  groupValue: _selected,
-                  onChanged: (value) {},
-                  title: const Text('Cartão de Débito'),
-                ),
-                RadioListTile(
-                  value: Payment.pix,
-                  groupValue: _selected,
-                  onChanged: (value) {},
-                  title: const Text('Pix'),
-                ),
+                const SizedBox(height: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        store_quantity.decrement();
+                      },
+                      child: Text(
+                        '-',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    ),
+                    Observer(builder: (_) {
+                      return Text(
+                        store_quantity.quantity.toString(),
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      );
+                    }),
+                    TextButton(
+                      onPressed: () {
+                        store_quantity.increment();
+                      },
+                      child: Text(
+                        '+',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
