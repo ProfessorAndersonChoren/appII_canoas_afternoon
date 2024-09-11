@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organizeme/screens/shop_list/shop_list_page.dart';
 import 'package:organizeme/screens/todo/todo_page.dart';
 import 'package:organizeme/theme.dart';
 
@@ -18,7 +19,8 @@ class MainApp extends StatelessWidget {
       initialRoute: '/todo',
       routes: {
         '/todo': (context) => TodoPage(),
-      }
+        '/shoplist': (context) => ShopListPage(),
+      },
     );
   }
 }

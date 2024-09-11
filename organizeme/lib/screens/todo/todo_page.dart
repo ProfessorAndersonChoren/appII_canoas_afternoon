@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organizeme/screens/shared/app_drawer.dart';
 import 'package:organizeme/screens/todo/components/task.dart';
 
 class TodoPage extends StatelessWidget {
@@ -37,34 +38,7 @@ class TodoPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('OrganizeMe'),
       ),
-      drawer: Drawer(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'OrganizeMe',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.access_time),
-                label: const Text('Compromissos do dia'),
-              ),
-              const SizedBox(height: 16),
-              TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.shopping_cart),
-                label: const Text('Lista de compras'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 16,
