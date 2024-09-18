@@ -44,7 +44,9 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
                 child: const Text('Registre-se'),
               ),
             ],
