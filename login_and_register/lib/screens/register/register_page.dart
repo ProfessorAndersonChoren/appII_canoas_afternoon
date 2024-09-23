@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:login_and_register/model/user_model.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -16,7 +17,7 @@ class RegisterPage extends StatelessWidget {
         title: const Text('Registre-se'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
@@ -30,9 +31,9 @@ class RegisterPage extends StatelessWidget {
                   }
                   return null; // É valido
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
                 autofocus: true,
                 keyboardType: TextInputType.emailAddress,
@@ -47,9 +48,9 @@ class RegisterPage extends StatelessWidget {
                   }
                   return null;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Senha',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.visiblePassword,
                 textInputAction: TextInputAction.next,
@@ -68,9 +69,9 @@ class RegisterPage extends StatelessWidget {
                   }
                   return null;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Repita sua senha',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.visiblePassword,
                 textInputAction: TextInputAction.done,
@@ -78,15 +79,20 @@ class RegisterPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // TODO Salvar no banco
+                    final user = UserModel(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                    await user.register();
+                    Navigator.pop(context);
                   }
                 },
-                child: Text('Registrar'),
                 style: FilledButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.tertiary,
                 ),
+                child: Text('Registrar'),
               ),
             ],
           ),

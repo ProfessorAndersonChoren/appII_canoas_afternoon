@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:login_and_register/model/user_model.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    var _formkey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seja Bem-vindo'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: _formkey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                validator: (value) {},
+                controller: _emailController,
+                validator: (value) {
+                  return null;
+                },
                 decoration: const InputDecoration(
                   label: Text('Email'),
                   border: OutlineInputBorder(),
@@ -29,8 +36,11 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                validator: (value) {},
-                decoration: InputDecoration(
+                controller: _passwordController,
+                validator: (value) {
+                  return null;
+                },
+                decoration: const InputDecoration(
                   label: Text('Senha'),
                   border: OutlineInputBorder(),
                 ),
@@ -39,8 +49,25 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: null,
-                child: const Text('Entrar'),
+                onPressed: () async {
+                  final user = UserModel(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+                  final founded = await user.login();
+                  SnackBar snackBar;
+                  if (founded) {
+                    // Encontrou
+                    snackBar = const SnackBar(
+                        content: Text('Bem-vindo ao nosso sistema!!!'));
+                  } else {
+                    // Não encontrou
+                    snackBar = const SnackBar(
+                        content: Text('Usuário ou senha inválidos!!!'));
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
+                child: Text('Entrar'),
               ),
               const SizedBox(height: 16),
               FilledButton(
