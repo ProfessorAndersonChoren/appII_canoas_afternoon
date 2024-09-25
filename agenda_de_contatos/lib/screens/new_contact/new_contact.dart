@@ -1,8 +1,9 @@
-
+import 'package:agenda_de_contatos/model/contact.dart';
+import 'package:agenda_de_contatos/repository/contact_repository.dart';
 import 'package:agenda_de_contatos/store/favorite_store.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:flutter_masked_text3/flutter_masked_text3.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:agenda_de_contatos/screens/new_contact/components/custom_textfield.dart';
 
@@ -24,7 +25,26 @@ class NewContact extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (_formKey.currentState!.validate()) {}
+          if (_formKey.currentState!.validate()) {
+            final contact = Contact(
+              name: _nameController.text,
+              lastName: _lastNameController.text,
+              phone: _phoneController.text,
+              email: _emailController.text,
+              isFavorite: _store.isFavorite,
+            );
+            contact.id = await ContactRepository.insert(contact.toMap());
+            SnackBar snackBar;
+            if (contact.id != 0) {
+              snackBar = SnackBar(
+                  content: Text('${contact.name} cadastrado com sucesso!!!'));
+            } else {
+              snackBar = SnackBar(
+                  content: Text(
+                      'Lamento não foi possível cadastrar o contato ${contact.name} !!!'));
+            }
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         },
         child: const Icon(Icons.save),
       ),
